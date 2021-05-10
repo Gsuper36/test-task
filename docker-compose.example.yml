@@ -46,7 +46,7 @@ services:
         networks:
             - app-network
         volumes:
-            - ./docker/postgres/dbdata:/var/lib/postgresql/data/pgdata
+            - ./docker/postgres/dbdata:/var/lib/postgresql/data
 
 networks:
     app-network:
