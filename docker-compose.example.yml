@@ -1,0 +1,59 @@
+version: '3'
+services:
+
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: linni-php
+        container_name: game-app
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+        working_dir: /var/www/
+        networks:
+            - app-network
+        volumes:
+            - ./:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+
+    webserver:
+        image: nginx:alpine
+        container_name: game-webserver
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "444:443"
+        networks:
+            - app-network
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+
+    db:
+        image: postgres
+        restart: always
+        container_name: game-db
+        environment:
+            POSTGRES_PASSWORD: app
+            POSTGRES_USER: app
+            POSTGRES_DB: app
+        ports:
+            - "5432:5432"
+        networks:
+            - app-network
+        volumes:
+            - ./docker/postgres/dbdata:/var/lib/postgresql/data/pgdata
+
+networks:
+    app-network:
+        driver: bridge
+
+
+
+
+
+
