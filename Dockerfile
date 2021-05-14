@@ -6,8 +6,6 @@ COPY composer.lock composer.json /var/www/
 # Set working directory
 WORKDIR /var/www
 
-USER root
-
 # Install dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
