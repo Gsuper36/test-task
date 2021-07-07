@@ -13,7 +13,7 @@ class Book extends Model
     protected $table = 'book';
 
     protected $fillable = [
-        'title',
+        'name',
         'author_id',
         'description',
         'released_at'
@@ -36,5 +36,10 @@ class Book extends Model
             'book_id',
             'author_id'
         );
+    }
+
+    public function scopeAuthorId($query, $authorId)
+    {
+        $query->where('author_id', $authorId);
     }
 }

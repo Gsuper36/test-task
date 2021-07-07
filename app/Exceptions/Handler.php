@@ -2,6 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponseHelper;
+use Exception;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
@@ -37,5 +40,31 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($request->ajax() ||
+            $request->wantsJson() ||
+            $request->segment(1) === 'dashboard'
+        ) {
+            return $this->apiError($request, $e);
+        }
+
+        response($e);
+    }
+
+    private function apiError($request, Exception $e)
+    {
+
+        if ($e instanceof ValidationException) {
+            return ApiResponseHelper::error(
+                $e->errors()
+            );
+        }
+
+        return ApiResponseHelper::error(
+            ['message' => $e->getMessage()]
+        );
     }
 }
