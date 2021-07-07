@@ -3,7 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
-/docker/postgres/dbdata/*
+docker/postgres/dbdata/*
 /.code
 .editorconfig
 docker-compose.yml

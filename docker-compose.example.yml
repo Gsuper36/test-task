@@ -6,7 +6,7 @@ services:
             context: .
             dockerfile: Dockerfile
         image: linni-php
-        container_name: game-app
+        container_name: test-app
         restart: unless-stopped
         tty: true
         environment:
@@ -21,7 +21,7 @@ services:
 
     webserver:
         image: nginx:alpine
-        container_name: game-webserver
+        container_name: test-webserver
         restart: unless-stopped
         tty: true
         ports:
@@ -36,7 +36,7 @@ services:
     db:
         image: postgres
         restart: always
-        container_name: game-db
+        container_name: test-db
         environment:
             POSTGRES_PASSWORD: app
             POSTGRES_USER: app
