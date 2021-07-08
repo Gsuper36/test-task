@@ -45,13 +45,12 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($request->ajax() ||
-            $request->wantsJson() ||
-            $request->segment(1) === 'dashboard'
+            $request->wantsJson()
         ) {
             return $this->apiError($request, $e);
         }
 
-        response($e);
+        dd($e);
     }
 
     private function apiError($request, Exception $e)

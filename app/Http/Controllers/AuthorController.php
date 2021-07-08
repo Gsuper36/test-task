@@ -2,84 +2,63 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ApiResponseHelper;
+use App\Http\Requests\AuthorCreateRequest;
+use App\Http\Requests\AuthorUpdateRequest;
 use App\Models\Author;
-use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        return view(
+            'dashboard.authors.list', 
+            [
+                'authors' => Author::all()
+            ]
+        );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view(
+            'dashboard.authors.view', 
+            [
+                'author' => new Author
+            ]
+        );
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(AuthorCreateRequest $request)
     {
-        //
+        (new Author)->fill($request->validated())
+            ->save();
+
+        return ApiResponseHelper::success();
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Author $author)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Author $author)
     {
-        //
+        return view(
+            'dashboard.authors.view',
+            [
+                'author' => $author
+            ]
+        );
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Author $author)
+    public function update(AuthorUpdateRequest $request, Author $author)
     {
-        //
+        $author->fill($request->validated())
+            ->save();
+
+        return ApiResponseHelper::success();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Author  $author
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+
+        return ApiResponseHelper::success();
     }
 }

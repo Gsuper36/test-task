@@ -33,7 +33,12 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li class="nav-item dropdown">
+                            <a href="{{ route('books.index') }}">Книги</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a href="{{ route('authors.index') }}">Авторы</a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

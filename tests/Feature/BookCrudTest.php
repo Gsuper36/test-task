@@ -25,7 +25,6 @@ class BookCrudTest extends TestCase
             ->get('/dashboard/books');
 
         $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
     }
 
     public function test_books_create()
@@ -38,7 +37,6 @@ class BookCrudTest extends TestCase
             ->get('/dashboard/books/create');
 
         $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
     }
 
     public function test_books_store()
@@ -114,7 +112,6 @@ class BookCrudTest extends TestCase
             ->get("dashboard/books/{$book->id}/edit");
 
         $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
     }
 
     /**

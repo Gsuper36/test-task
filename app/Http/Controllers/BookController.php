@@ -8,61 +8,28 @@ use App\Http\Requests\BookUpdateRequest;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use Exception;
 
 class BookController extends Controller
 {
     public function index()
     {
-        return ApiResponseHelper::success(
-            $this->books()
+        return view(
+            'dashboard.books.list',
+            [
+                'books' => Book::all()
+            ]
         );
-    }
-
-    private function books(): array
-    {
-        $data = [];
-
-        foreach (Book::with('author')->get() as $book) {
-            $data[] = $this->bookData($book);
-        }
-
-        return $data;
-    }
-
-    private function bookData(Book $book): array
-    {
-        return [
-            'name'        => $book->name,
-            'description' => $book->description,
-            'author'      => $book->author->name,
-            'released_at' => $book->released_at
-        ];
     }
 
     public function create()
     {
-        return ApiResponseHelper::success([
-            'authors' => $this->authors()
-        ]);
-    }
-
-    private function authors(): array
-    {
-        $data = [];
-
-        foreach (Author::all() as $author) {
-            $data[] = $this->authorData($author);
-        }
-
-        return $data;
-    }
-
-    private function authorData(Author $author): array
-    {
-        return [
-            'name' => $author->name
-        ];
+        return view(
+            'dashboard.books.view',
+            [
+                'book'    => new Book,
+                'authors' => Author::all()
+            ]
+        );
     }
 
     public function addSubAuthor(Request $request)
@@ -85,22 +52,14 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        return ApiResponseHelper::success([
-            'book'       => $book,
-            'authors'    => $this->authors(),
-            'subAuthors' => $this->subAuthors($book)
-        ]); 
-    }
-
-    private function subAuthors(Book $book): array
-    {
-        $data = [];
-
-        foreach (Author::where('id', '<>', $book->id) as $author) {
-            $data[] = $this->authorData($author);
-        }
-
-        return $data;
+        return view(
+            'dashboard.books.view',
+            [
+                'book'       => $book,
+                'authors'    => Author::all(),
+                'subAuthors' => Author::where('id', '<>', $book->id)->get()
+            ]
+        );
     }
 
     public function update(BookUpdateRequest $request, Book $book)

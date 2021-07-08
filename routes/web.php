@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,9 @@ Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web']], functio
     Route::post('books/subAuthor', [BookController::class, 'addSubAuthor'])->name('books.subAuthor.store');
 
     Route::resource('books', BookController::class)->except('show');
+    Route::resource('authors', AuthorController::class)->except('show');
+    
+    Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 });
 
-Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
