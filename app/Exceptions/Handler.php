@@ -50,6 +50,10 @@ class Handler extends ExceptionHandler
             return $this->apiError($request, $e);
         }
 
+        if ($e instanceof Exception) {
+            response($e->getMessage(), 500);
+        }
+
         dd($e);
     }
 

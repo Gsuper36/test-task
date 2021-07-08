@@ -25,6 +25,7 @@ Auth::routes();
 Route::group(['prefix' => 'dashboard', 'middleware' => ['auth', 'web']], function () {
 
     Route::post('books/subAuthor', [BookController::class, 'addSubAuthor'])->name('books.subAuthor.store');
+    Route::get('books/filter', [BookController::class, 'filter'])->name('books.filter');
 
     Route::resource('books', BookController::class)->except('show');
     Route::resource('authors', AuthorController::class)->except('show');
